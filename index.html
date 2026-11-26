@@ -20,14 +20,14 @@
 </head>
 <body>
 <h1>Tanda tangani entri make.fun</h1>
-<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty “Sum up 26 November's world news in one image”. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
+<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty &ldquo;Make the best flight game&rdquo;. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
 <p>Dompet yang harus menandatangani: <code>4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq</code></p>
-<p><b>Penting:</b> buka halaman ini di <b>browser dalam aplikasi Phantom</b> (di Phantom, ketuk kolom “Cari di Phantom” lalu tempel alamat tautan ini). Kalau dibuka di Chrome, dompet tidak akan ditemukan.</p>
+<p><b>Penting:</b> buka halaman ini di <b>browser dalam aplikasi Phantom</b> (di Phantom, ketuk kolom &ldquo;Cari di Phantom&rdquo; lalu tempel alamat tautan ini). Kalau dibuka di Chrome, dompet tidak akan ditemukan.</p>
 <button id="connectBtn">1. Hubungkan dompet Phantom</button>
 <p id="walletLine"></p>
 <button id="signBtn" disabled>2. Tanda tangani pesan entri</button>
 <pre id="msgBox">Pesan yang akan ditandatangani akan muncul di sini.</pre>
-<p><b>Hasil — salin semua dan kirim ke Muse:</b></p>
+<p><b>Hasil &mdash; salin semua dan kirim ke Muse:</b></p>
 <textarea id="outBox" readonly placeholder="Hasil tanda tangan akan muncul di sini."></textarea>
 <button id="copyBtn" class="secondary" disabled>Salin hasil</button>
 <p id="errLine"></p>
@@ -56,9 +56,9 @@ function base58Encode(bytes) {
   }
   return out;
 }
-var REPO = 'https://github.com/Ty-kepo/news-image-20261126';
-var COMMIT = 'bb48ddb1a9d3952df6e7a811d05c59af8d77eac0';
-var BUNDLE_SHA = '425ec931180217ade2e6dd513cf2f07779288334a87251a012f90fe61a81effd';
+var REPO = 'https://github.com/Ty-kepo/flight-game';
+var COMMIT = 'd07f1559c6d82def66a1eacd2171bc5891c983d8';
+var BUNDLE_SHA = '7cac408ca5426c2dedd6ea1139e2aa928f62ad474e4b2b4fbafbcdd334241767';
 var WALLET = '4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq';
 var provider = null;
 function getProvider() {
@@ -89,7 +89,7 @@ document.getElementById('signBtn').onclick = function () {
   var message = [
     'make.fun entry v1',
     'Domain: make.fun',
-    'Competition: news-image-20261126',
+    'Competition: best-flight-game-20261126-0057',
     'Repo: ' + REPO,
     'Commit: ' + COMMIT,
     'Transcripts: ' + BUNDLE_SHA,
