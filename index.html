@@ -20,7 +20,7 @@
 </head>
 <body>
 <h1>Tanda tangani entri make.fun</h1>
-<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty “Build the best token launch radar”. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
+<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty “Sum up 26 November's world news in one image”. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
 <p>Dompet yang harus menandatangani: <code>4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq</code></p>
 <p><b>Penting:</b> buka halaman ini di <b>browser dalam aplikasi Phantom</b> (di Phantom, ketuk kolom “Cari di Phantom” lalu tempel alamat tautan ini). Kalau dibuka di Chrome, dompet tidak akan ditemukan.</p>
 <button id="connectBtn">1. Hubungkan dompet Phantom</button>
@@ -56,9 +56,9 @@ function base58Encode(bytes) {
   }
   return out;
 }
-var REPO = 'https://github.com/Ty-kepo/token-radar-01';
-var COMMIT = '214b6763eb0b443bb6831f58391458ae5ce10baf';
-var BUNDLE_SHA = '7b5d9a3c5b2d421924468eefd1ce72eca3438e4e8eb4706a4da11399f9dc7ee8';
+var REPO = 'https://github.com/Ty-kepo/news-image-20261126';
+var COMMIT = 'bb48ddb1a9d3952df6e7a811d05c59af8d77eac0';
+var BUNDLE_SHA = '425ec931180217ade2e6dd513cf2f07779288334a87251a012f90fe61a81effd';
 var WALLET = '4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq';
 var provider = null;
 function getProvider() {
@@ -89,7 +89,7 @@ document.getElementById('signBtn').onclick = function () {
   var message = [
     'make.fun entry v1',
     'Domain: make.fun',
-    'Competition: token-radar-01',
+    'Competition: news-image-20261126',
     'Repo: ' + REPO,
     'Commit: ' + COMMIT,
     'Transcripts: ' + BUNDLE_SHA,
