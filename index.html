@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tanda tangani entri make.fun</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #111827; color: #f3f4f6; margin: 0; padding: 20px; }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  p { font-size: 15px; line-height: 1.5; }
+  code { color: #fbbf24; word-break: break-all; }
+  button { display: block; width: 100%; padding: 14px; margin: 12px 0; font-size: 16px; font-weight: bold; color: #111827; background: #f472b6; border: 0; border-radius: 10px; }
+  button:disabled { background: #4b5563; color: #9ca3af; }
+  button.secondary { background: #374151; color: #f3f4f6; }
+  pre, textarea { width: 100%; box-sizing: border-box; background: #1f2937; color: #e5e7eb; border: 1px solid #4b5563; border-radius: 8px; padding: 10px; font-size: 13px; white-space: pre-wrap; word-break: break-all; }
+  textarea { min-height: 160px; }
+  #errLine { color: #f87171; }
+  .ok { color: #4ade80; }
+</style>
+</head>
+<body>
+<h1>Tanda tangani entri make.fun</h1>
+<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty “Sum up 25 November's world news in one image”. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
+<p>Dompet yang harus menandatangani: <code>4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq</code></p>
+<p><b>Penting:</b> buka halaman ini di <b>browser dalam aplikasi Phantom</b> (di Phantom, ketuk kolom “Cari di Phantom” lalu tempel alamat tautan ini). Kalau dibuka di Chrome, dompet tidak akan ditemukan.</p>
+<button id="connectBtn">1. Hubungkan dompet Phantom</button>
+<p id="walletLine"></p>
+<button id="signBtn" disabled>2. Tanda tangani pesan entri</button>
+<pre id="msgBox">Pesan yang akan ditandatangani akan muncul di sini.</pre>
+<p><b>Hasil — salin semua dan kirim ke Muse:</b></p>
+<textarea id="outBox" readonly placeholder="Hasil tanda tangan akan muncul di sini."></textarea>
+<button id="copyBtn" class="secondary" disabled>Salin hasil</button>
+<p id="errLine"></p>
+<script>
+var B58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+function base58Encode(bytes) {
+  var zeros = 0;
+  while (zeros < bytes.length && bytes[zeros] === 0) zeros++;
+  var digits = [0];
+  for (var i = zeros; i < bytes.length; i++) {
+    var carry = bytes[i];
+    for (var j = 0; j < digits.length; j++) {
+      carry += digits[j] << 8;
+      digits[j] = carry % 58;
+      carry = (carry / 58) | 0;
+    }
+    while (carry > 0) {
+      digits.push(carry % 58);
+      carry = (carry / 58) | 0;
+    }
+  }
+  var out = '';
+  for (var k = 0; k < zeros; k++) out += '1';
+  if (!(digits.length === 1 && digits[0] === 0)) {
+    for (var i = digits.length - 1; i >= 0; i--) out += B58[digits[i]];
+  }
+  return out;
+}
+var REPO = 'https://github.com/Ty-kepo/news-image-20261125';
+var COMMIT = '5a1346cc329224c60b95af8d291b3ed4753d78ea';
+var BUNDLE_SHA = 'a795ec9759bfa1770c5401106022bc4d0fc69aaa6bacd10f490c3b0355d47f83';
+var WALLET = '4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq';
+var provider = null;
+function getProvider() {
+  if (window.solana && window.solana.isPhantom) return window.solana;
+  if (window.phantom && window.phantom.solana) return window.phantom.solana;
+  return null;
+}
+function err(m) { document.getElementById('errLine').textContent = m; }
+document.getElementById('connectBtn').onclick = function () {
+  provider = getProvider();
+  if (!provider) { err('Dompet Phantom tidak ditemukan di browser ini. Buka tautan ini di browser dalam aplikasi Phantom (ketuk "Cari di Phantom", lalu tempel alamat tautan ini).'); return; }
+  err('');
+  provider.connect().then(function (resp) {
+    var addr = resp.publicKey.toString();
+    var line = document.getElementById('walletLine');
+    line.textContent = 'Dompet terhubung: ' + addr;
+    if (addr !== WALLET) { line.className = ''; err('Dompet yang terhubung berbeda dari yang seharusnya (' + addr + '). Harusnya: ' + WALLET + '.'); return; }
+    line.className = 'ok';
+    document.getElementById('signBtn').disabled = false;
+  }).catch(function (e) { err('Gagal menghubungkan dompet: ' + (e && e.message ? e.message : e)); });
+};
+document.getElementById('signBtn').onclick = function () {
+  var nonceBytes = new Uint8Array(16);
+  crypto.getRandomValues(nonceBytes);
+  var nonce = '';
+  for (var i = 0; i < nonceBytes.length; i++) nonce += ('0' + nonceBytes[i].toString(16)).slice(-2);
+  var issuedAt = new Date().toISOString();
+  var message = [
+    'make.fun entry v1',
+    'Domain: make.fun',
+    'Competition: news-image-20261125',
+    'Repo: ' + REPO,
+    'Commit: ' + COMMIT,
+    'Transcripts: ' + BUNDLE_SHA,
+    'Wallet: ' + WALLET,
+    'Nonce: ' + nonce,
+    'Issued At: ' + issuedAt
+  ].join('\n');
+  document.getElementById('msgBox').textContent = 'Pesan yang akan ditandatangani:\n\n' + message;
+  err('');
+  var encoded = new TextEncoder().encode(message);
+  provider.signMessage(encoded, 'utf8').then(function (signed) {
+    var signature = base58Encode(signed.signature);
+    var out = 'PESAN:\n' + message + '\n\nTANDA TANGAN:\n' + signature;
+    document.getElementById('outBox').value = out;
+    document.getElementById('copyBtn').disabled = false;
+  }).catch(function (e) { err('Penandatanganan dibatalkan atau gagal: ' + (e && e.message ? e.message : e)); });
+};
+document.getElementById('copyBtn').onclick = function () {
+  var ta = document.getElementById('outBox');
+  var done = function () { document.getElementById('copyBtn').textContent = 'Disalin! Kirim ke Muse.'; };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ta.value).then(done).catch(function () {
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) { err('Salin manual: tekan lama pada kotak hasil, pilih semua, lalu salin.'); }
+    });
+  } else {
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { err('Salin manual: tekan lama pada kotak hasil, pilih semua, lalu salin.'); }
+  }
+};
+</script>
+</body>
+</html>
