@@ -20,7 +20,7 @@
 </head>
 <body>
 <h1>Tanda tangani entri make.fun</h1>
-<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty &ldquo;Make the best flight game&rdquo;. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
+<p>Halaman ini hanya meminta dompet Phantom kamu menandatangani <b>pesan entri</b> untuk bounty &ldquo;Make the AI judge feel thankful&rdquo;. Ini <b>bukan transaksi</b> dan <b>tidak ada biaya</b>. Pesan ini tidak memindahkan uang dan tidak meminta frasa pemulihan atau kunci pribadi kamu.</p>
 <p>Dompet yang harus menandatangani: <code>4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq</code></p>
 <p><b>Penting:</b> buka halaman ini di <b>browser dalam aplikasi Phantom</b> (di Phantom, ketuk kolom &ldquo;Cari di Phantom&rdquo; lalu tempel alamat tautan ini). Kalau dibuka di Chrome, dompet tidak akan ditemukan.</p>
 <button id="connectBtn">1. Hubungkan dompet Phantom</button>
@@ -56,9 +56,9 @@ function base58Encode(bytes) {
   }
   return out;
 }
-var REPO = 'https://github.com/Ty-kepo/flight-game';
-var COMMIT = '12a384ffc944f82ed1e2e75b2399455e3af3e100';
-var BUNDLE_SHA = '7cac408ca5426c2dedd6ea1139e2aa928f62ad474e4b2b4fbafbcdd334241767';
+var REPO = 'https://github.com/Ty-kepo/thankful-20261127';
+var COMMIT = '68dd1bf685bf1217abb3965566ca0932adff7d83';
+var BUNDLE_SHA = '9d5f482747cce090281f2bb10d0f4056ee6521835b40944d10d02840baea254b';
 var WALLET = '4WSXynwTXU2tWaeGhYeawkimoHiinzYMNam85U4b3kqq';
 var provider = null;
 function getProvider() {
@@ -89,7 +89,7 @@ document.getElementById('signBtn').onclick = function () {
   var message = [
     'make.fun entry v1',
     'Domain: make.fun',
-    'Competition: best-flight-game-20261126-0057',
+    'Competition: make-the-ai-judge-feel-thankful-20261127-1600',
     'Repo: ' + REPO,
     'Commit: ' + COMMIT,
     'Transcripts: ' + BUNDLE_SHA,
